@@ -7,7 +7,7 @@ function createGroup(startX, startY, groupSize, defaultColor = null) {
 		return new Array(3).fill().map((_, j) => {
 			const x = startX + j * squareSize;
 			const elm = new Square(x, y, squareSize);
-			if (defaultColor) elm.setColor(random(["red", "blue", "green"]));
+			if (defaultColor) elm.setColor(defaultColor);
 
 			return elm;
 		});
