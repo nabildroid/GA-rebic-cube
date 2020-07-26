@@ -17,7 +17,7 @@ function start() {
 	bg = Background("100%", "#333");
 	example = new Cube(false);
 	example.randomize();
-	pop = new Population(300, 0.7, example.getColors());
+	pop = new Population(100, 0.01, example.getColors());
 }
 
 function update() {

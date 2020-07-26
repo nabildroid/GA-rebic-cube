@@ -52,3 +52,13 @@ function pick(populations) {
 	index--;
 	return populations[index];
 }
+
+function arrayElementsEqualeTo(arr, target) {
+	let correct = true;
+	let i = 0;
+	do {
+		correct = arr[i] == target;
+	} while (++i < arr.length && correct);
+
+	return correct;
+}

@@ -6,8 +6,6 @@ class DNA {
 		this.parent = parent;
 	}
 
-	
-
 	calcFitness() {
 		let total = 0;
 		const sides = [
@@ -25,14 +23,66 @@ class DNA {
 				group[1][2],
 				...group[2],
 				group[1][0],
-			];
-			const middle = group[1][1];
-			movingParts.forEach(
-				(part) => (total += part.color == middle.color ? 1 : 0)
-			);
+			].map((e) => e.color);
+			const middle = group[1][1].color;
+
+			movingParts.forEach((part, i) => {
+				total += part == middle ? 1 : 0;
+
+				if (i % 1 == 0) {
+					total += 2;
+				}
+			});
+
+			if (arrayElementsEqualeTo(movingParts, middle))
+				total += 20 + total * 2;
+			else {
+				if (
+					arrayElementsEqualeTo(
+						group[0].map((e) => e.color),
+						middle
+					)
+				)
+					total += 5;
+				if (
+					arrayElementsEqualeTo(
+						group[1].map((e) => e.color),
+						middle
+					)
+				)
+					total += 5;
+				if (
+					arrayElementsEqualeTo(
+						group[2].map((e) => e.color),
+						middle
+					)
+				)
+					total += 5;
+				if (
+					arrayElementsEqualeTo(
+						sliceVertical(group, 0).map((e) => e.color),
+						middle
+					)
+				)
+					total += 5;
+				if (
+					arrayElementsEqualeTo(
+						sliceVertical(group, 1).map((e) => e.color),
+						middle
+					)
+				)
+					total += 5;
+				if (
+					arrayElementsEqualeTo(
+						sliceVertical(group, 2).map((e) => e.color),
+						middle
+					)
+				)
+					total += 5;
+			}
 		});
 
-		this.fitness = total;
+		this.fitness = total / 100;
 		return this.fitness;
 	}
 
