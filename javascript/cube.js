@@ -94,4 +94,43 @@ class Cube {
 
 		parts.map((elm, i) => elm.setColor(colors[i]));
 	}
+
+	getColors() {
+		const colors = [];
+		const sides = [
+			this.top,
+			this.bottom,
+			this.front,
+			this.back,
+			this.left,
+			this.right,
+		];
+
+		sides.forEach((group) => {
+			group
+				.flat()
+				.flat()
+				.forEach((square) => colors.push(square.color));
+		});
+		return colors;
+	}
+
+	setColors(colors) {
+		const sides = [
+			this.top,
+			this.bottom,
+			this.front,
+			this.back,
+			this.left,
+			this.right,
+		];
+
+		let r = -1;
+		colors.forEach((color, i) => {
+			r += i % 3 == 0 ? 1 : 0;
+			r = r == 3 ? 0 : r;
+			const side = sides[Math.floor(i /9)];
+			side[r][i % 3].setColor(color);
+		});
+	}
 }
