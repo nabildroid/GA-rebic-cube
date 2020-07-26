@@ -10,10 +10,11 @@ const COLORS = {
 
 let bg;
 let c;
+let dna;
 function start() {
 	bg = Background("100%", "#333");
-	c = new Cube();
-
+	c = new Cube(false);
+	dna = new DNA(c);
 }
 
 Track_key_press((key) => {

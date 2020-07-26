@@ -1,11 +1,11 @@
 class Cube {
-	constructor() {
-		this.top = createGroup(200, 10, 100, COLORS.WHITE);
-		this.bottom = createGroup(200, 120, 100, COLORS.YELLOW);
-		this.front = createGroup(200, 230, 100, COLORS.GREEN);
-		this.left = createGroup(90, 230, 100, COLORS.ORANGE);
-		this.back = createGroup(310, 230, 100, COLORS.BLUE);
-		this.right = createGroup(200, 340, 100, COLORS.RED);
+	constructor(withElm = true) {
+		this.top = createGroup(200, 10, 100, COLORS.WHITE, withElm);
+		this.back = createGroup(200, 120, 100, COLORS.ORANGE, withElm);
+		this.bottom = createGroup(200, 230, 100, COLORS.YELLOW, withElm);
+		this.left = createGroup(90, 230, 100, COLORS.BLUE, withElm);
+		this.right = createGroup(310, 230, 100, COLORS.GREEN, withElm);
+		this.front = createGroup(200, 340, 100, COLORS.RED, withElm);
 
 		this.relations = {
 			top: [this.front, this.right, this.back, this.left],
