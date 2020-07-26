@@ -18,28 +18,28 @@ class Cube {
 	}
 
 	moveTop(dir) {
-		this.rotateFixed(this.top,dir);
-		this.rotateSides(this.relations.top,dir);
+		this.rotateFixed(this.top, dir);
+		this.rotateSides(this.relations.top, dir);
 	}
 	moveBottom(dir) {
-		this.rotateFixed(this.bottom,dir);
-		this.rotateSides(this.relations.bottom,dir);
+		this.rotateFixed(this.bottom, dir);
+		this.rotateSides(this.relations.bottom, dir, false, false);
 	}
 	moveFront(dir) {
-		this.rotateFixed(this.front,dir);
-		this.rotateSides(this.relations.front,dir);
+		this.rotateFixed(this.front, dir);
+		this.rotateSides(this.relations.front, dir, false, false);
 	}
 	moveBack(dir) {
-		this.rotateFixed(this.back,dir);
-		this.rotateSides(this.relations.back,dir);
+		this.rotateFixed(this.back, dir);
+		this.rotateSides(this.relations.back, dir, false);
 	}
 	moveLeft(dir) {
-		this.rotateFixed(this.left,dir);
-		this.rotateSides(this.relations.left,dir);
+		this.rotateFixed(this.left, dir);
+		this.rotateSides(this.relations.left, dir, true);
 	}
 	moveRight(dir) {
-		this.rotateFixed(this.right,dir);
-		this.rotateSides(this.relations.right,dir);
+		this.rotateFixed(this.right, dir);
+		this.rotateSides(this.relations.right, dir, true, false);
 	}
 
 	rotateFixed([...group], dir = 0) {
@@ -52,13 +52,20 @@ class Cube {
 		this.rotate(parts, dir);
 	}
 
-	rotateSides(sides, dir = 0) {
-		const parts = [
-			...sides[0][0],
-			...sides[1][0],
-			...sides[2][0],
-			...sides[3][0],
-		];
+	rotateSides(sides, dir, vertical = false, first = true) {
+		const parts = vertical
+			? [
+					...sliceVertical(sides[0], first ? 0 : 2),
+					...sliceVertical(sides[1], first ? 0 : 2),
+					...sliceVertical(sides[2], first ? 0 : 2),
+					...sliceVertical(sides[3], first ? 0 : 2),
+			  ]
+			: [
+					...sides[0][first ? 0 : 2],
+					...sides[1][first ? 0 : 2],
+					...sides[2][first ? 0 : 2],
+					...sides[3][first ? 0 : 2],
+			  ];
 		this.rotate(parts, dir, 3);
 	}
 
