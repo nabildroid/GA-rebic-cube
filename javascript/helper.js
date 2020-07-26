@@ -7,7 +7,7 @@ function createGroup(startX, startY, groupSize, defaultColor = null) {
 		return new Array(3).fill().map((_, j) => {
 			const x = startX + j * squareSize;
 			const elm = new Square(x, y, squareSize);
-			if (defaultColor) elm.setColor(defaultColor);
+			if (defaultColor) elm.setColor(random(["red", "blue", "green"]));
 
 			return elm;
 		});
@@ -15,3 +15,13 @@ function createGroup(startX, startY, groupSize, defaultColor = null) {
 
 	return elms;
 }
+
+function rotateArray(arr) {
+	const last = arr[arr.length - 1];
+	for (let i = arr.length - 1; i > 0; i--) {
+		arr[i] = arr[i - 1];
+	}
+	arr[0] = last;
+	return arr;
+}
+

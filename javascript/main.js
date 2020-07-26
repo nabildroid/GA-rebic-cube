@@ -1,4 +1,4 @@
-frame_speed = 1;
+frame_speed = 5
 const COLORS = {
 	RED: "red",
 	WHITE: "white",
@@ -9,10 +9,18 @@ const COLORS = {
 };
 
 let bg;
-
+let c;
 function start() {
 	bg = Background("100%", "#333");
-	new Cube();
+	c = new Cube();
+
 }
 
-function update() {}
+function update() {
+	c.moveTop();
+	c.moveBottom()
+	c.moveLeft();
+	c.moveRight();
+	c.moveFront();
+	c.moveBack();
+}
