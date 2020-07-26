@@ -39,3 +39,16 @@ function sliceVertical(arr, index) {
 	});
 	return a;
 }
+
+function pick(populations) {
+	var sum = 0;
+	populations.forEach((dna) => (sum += dna.fitness));
+	var index = 0;
+	var r = Math.random();
+	while (r > 0) {
+		r = r - populations[index].fitness / sum;
+		index++;
+	}
+	index--;
+	return populations[index];
+}

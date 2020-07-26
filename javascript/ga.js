@@ -32,15 +32,14 @@ class DNA {
 			);
 		});
 
-        this.fitness = total;
-        return this.fitness;
+		this.fitness = total;
+		return this.fitness;
 	}
 
 	crossover(dna) {
 		const child = new DNA();
-		for (let i = 0; i < this.dna.genes.length; i++) {
-			if (i < this.dna.genes.length / 2)
-				child.genes[i] = this.dna.genes[i];
+		for (let i = 0; i < this.genes.length; i++) {
+			if (i < this.genes.length / 2) child.genes[i] = this.genes[i];
 			else child.genes[i] = dna.genes[i];
 		}
 
@@ -53,12 +52,69 @@ class DNA {
 				this.genes[i] = DNA.createGenen();
 			}
 		}
-    }
-    
-    static createGenen() {
+	}
+
+	static createGenen() {
 		return {
 			color: random(Object.values(COLORS)),
 			dir: random(0, 1),
 		};
+	}
+}
+
+class Population {
+	constructor(maxPop, mutationRate) {
+		this.maxPop = maxPop;
+		this.mutationRate = mutationRate;
+		this.population = [];
+		this.generations = 0;
+		this.maxFitness = 0;
+		this.createPopulation();
+	}
+
+	createPopulation() {
+		for (let i = 0; i < this.maxPop; i++) {
+			const cube = new Cube(false);
+			const dna = new DNA(cube);
+
+			this.population.push(dna);
+		}
+	}
+
+	calcFitness() {
+		this.population.forEach((dna) => dna.calcFitness());
+		this.population.forEach((dna) => {
+			if (dna.fitness > this.maxFitness) this.maxFitness = dna.fitness;
+		});
+	}
+
+	selection() {
+		let tempPopulation = new Array();
+		for (let i = 0; i < this.population.length; i++) {
+			let parentA = pick(this.population);
+			let parentB = pick(this.population);
+			if (parentA === parentB) {
+				i--;
+				continue;
+			}
+
+			const child = parentA.crossover(parentB);
+			child.mutation(this.mutationRate);
+			tempPopulation.push(child);
+		}
+
+		tempPopulation.forEach((dna) => (dna.parent = new Cube(false)));
+
+		this.population = tempPopulation;
+		this.generations++;
+	}
+
+	action() {
+		this.population.forEach((dna) => {
+			for (let i = 0; i < dna.genes.length; i++) {
+				const gene = dna.genes[i];
+				dna.parent.move(gene.color, gene.dir);
+			}
+		});
 	}
 }
