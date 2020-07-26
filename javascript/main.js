@@ -1,4 +1,4 @@
-frame_speed = 60;
+frame_speed = 1;
 const COLORS = {
 	RED: "red",
 	WHITE: "white",
@@ -11,6 +11,8 @@ const COLORS = {
 let bg;
 let pop;
 let example;
+let bestDNA = null;
+let cube = null;
 function start() {
 	bg = Background("100%", "#333");
 	example = new Cube(false);
@@ -19,7 +21,20 @@ function start() {
 }
 
 function update() {
-	pop.action();
-	pop.calcFitness();
-	pop.selection();
+	if (!bestDNA || !bestDNA.genes.length) {
+		pop.action();
+		bestDNA = pop.calcFitness();
+		pop.selection();
+
+		cube = new Cube();
+		cube.setColors(pop.initialColors);
+		setFrame_speed(20);
+	} else {
+		const currentMove = bestDNA.genes.shift();
+		cube.move(currentMove.color, currentMove.dir);
+		if(!bestDNA.genes.length){
+			setFrame_speed(0.5)
+			setTimeout(cube.remove,1000)
+		}
+	}
 }

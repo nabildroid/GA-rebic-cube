@@ -15,6 +15,8 @@ class Cube {
 			right: [this.top, this.front, this.bottom, this.back],
 			left: [this.top, this.front, this.bottom, this.back],
 		};
+
+		this.withElm = withElm;
 	}
 
 	move(base, dir) {
@@ -129,8 +131,24 @@ class Cube {
 		colors.forEach((color, i) => {
 			r += i % 3 == 0 ? 1 : 0;
 			r = r == 3 ? 0 : r;
-			const side = sides[Math.floor(i /9)];
+			const side = sides[Math.floor(i / 9)];
 			side[r][i % 3].setColor(color);
 		});
+	}
+	remove() {
+		if (this.withElm) {
+			[
+				this.top,
+				this.bottom,
+				this.front,
+				this.back,
+				this.left,
+				this.right,
+			]
+				.flat()
+				.flat()
+				.flat()
+				.forEach((square) => square.elm.remove());
+		}
 	}
 }

@@ -86,8 +86,12 @@ class Population {
 	calcFitness() {
 		this.population.forEach((dna) => dna.calcFitness());
 		this.population.forEach((dna) => {
-			if (dna.fitness > this.maxFitness) this.maxFitness = dna.fitness;
+			if (dna.fitness > this.maxFitness) {
+				this.maxFitness = dna.fitness;
+				console.log(this.maxFitness);
+			}
 		});
+		return this.population.sort((a, b) => -a.fitness + b.fitness)[0];
 	}
 
 	selection() {
