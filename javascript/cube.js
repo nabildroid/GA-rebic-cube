@@ -17,6 +17,23 @@ class Cube {
 		};
 	}
 
+	move(base, dir) {
+		if (base == COLORS.WHITE) this.moveTop(dir);
+		else if (base == COLORS.YELLOW) this.moveBottom(dir);
+		else if (base == COLORS.BLUE) this.moveLeft(dir);
+		else if (base == COLORS.GREEN) this.moveRight(dir);
+		else if (base == COLORS.RED) this.moveBack(dir);
+		else if (base == COLORS.ORANGE) this.moveFront(dir);
+	}
+
+	randomize() {
+		let movementNumber = random(20, 100);
+		while (movementNumber-- > 0) {
+			const move = DNA.createGenen();
+			this.move(move.color, move.dir);
+		}
+	}
+
 	moveTop(dir) {
 		this.rotateFixed(this.top, dir);
 		this.rotateSides(this.relations.top, dir);

@@ -31,12 +31,11 @@ function rotateArray(arr) {
 	return arr;
 }
 
-
-function sliceVertical(arr,index){
+function sliceVertical(arr, index) {
 	const a = [];
 
-	arr.forEach(inner=>{
-		a.push(inner[index])
+	arr.forEach((inner) => {
+		a.push(inner[index]);
 	});
 	return a;
 }
