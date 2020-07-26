@@ -63,9 +63,10 @@ class DNA {
 }
 
 class Population {
-	constructor(maxPop, mutationRate) {
+	constructor(maxPop, mutationRate, initialColors) {
 		this.maxPop = maxPop;
 		this.mutationRate = mutationRate;
+		this.initialColors = initialColors;
 		this.population = [];
 		this.generations = 0;
 		this.maxFitness = 0;
@@ -75,6 +76,7 @@ class Population {
 	createPopulation() {
 		for (let i = 0; i < this.maxPop; i++) {
 			const cube = new Cube(false);
+			cube.setColors(this.initialColors);
 			const dna = new DNA(cube);
 
 			this.population.push(dna);
@@ -103,7 +105,11 @@ class Population {
 			tempPopulation.push(child);
 		}
 
-		tempPopulation.forEach((dna) => (dna.parent = new Cube(false)));
+		tempPopulation.forEach((dna) => {
+			const cube = new Cube(false);
+			cube.setColors(this.initialColors);
+			dna.parent = cube;
+		});
 
 		this.population = tempPopulation;
 		this.generations++;

@@ -10,9 +10,12 @@ const COLORS = {
 
 let bg;
 let pop;
+let example;
 function start() {
 	bg = Background("100%", "#333");
-	pop = new Population(100, 0.1);
+	example = new Cube(false);
+	example.randomize();
+	pop = new Population(300, 0.7, example.getColors());
 }
 
 function update() {
