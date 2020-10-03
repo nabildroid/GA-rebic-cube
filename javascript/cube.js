@@ -1,11 +1,11 @@
 class Cube {
-	constructor() {
-		this.top = createGroup(200, 10, 100, COLORS.WHITE);
-		this.bottom = createGroup(200, 120, 100, COLORS.YELLOW);
-		this.front = createGroup(200, 230, 100, COLORS.GREEN);
-		this.left = createGroup(90, 230, 100, COLORS.ORANGE);
-		this.back = createGroup(310, 230, 100, COLORS.BLUE);
-		this.right = createGroup(200, 340, 100, COLORS.RED);
+	constructor(withElm = true) {
+		this.top = createGroup(200, 10, 100, COLORS.WHITE, withElm);
+		this.back = createGroup(200, 120, 100, COLORS.ORANGE, withElm);
+		this.bottom = createGroup(200, 230, 100, COLORS.YELLOW, withElm);
+		this.left = createGroup(90, 230, 100, COLORS.BLUE, withElm);
+		this.right = createGroup(310, 230, 100, COLORS.GREEN, withElm);
+		this.front = createGroup(200, 340, 100, COLORS.RED, withElm);
 
 		this.relations = {
 			top: [this.front, this.right, this.back, this.left],
@@ -15,6 +15,25 @@ class Cube {
 			right: [this.top, this.front, this.bottom, this.back],
 			left: [this.top, this.front, this.bottom, this.back],
 		};
+
+		this.withElm = withElm;
+	}
+
+	move(base, dir) {
+		if (base == COLORS.WHITE) this.moveTop(dir);
+		else if (base == COLORS.YELLOW) this.moveBottom(dir);
+		else if (base == COLORS.BLUE) this.moveLeft(dir);
+		else if (base == COLORS.GREEN) this.moveRight(dir);
+		else if (base == COLORS.RED) this.moveBack(dir);
+		else if (base == COLORS.ORANGE) this.moveFront(dir);
+	}
+
+	randomize() {
+		let movementNumber = random(20, 100);
+		while (movementNumber-- > 0) {
+			const move = DNA.createGenen();
+			this.move(move.color, move.dir);
+		}
 	}
 
 	moveTop(dir) {
@@ -76,5 +95,60 @@ class Cube {
 		if (dir) colors.reverse();
 
 		parts.map((elm, i) => elm.setColor(colors[i]));
+	}
+
+	getColors() {
+		const colors = [];
+		const sides = [
+			this.top,
+			this.bottom,
+			this.front,
+			this.back,
+			this.left,
+			this.right,
+		];
+
+		sides.forEach((group) => {
+			group
+				.flat()
+				.flat()
+				.forEach((square) => colors.push(square.color));
+		});
+		return colors;
+	}
+
+	setColors(colors) {
+		const sides = [
+			this.top,
+			this.bottom,
+			this.front,
+			this.back,
+			this.left,
+			this.right,
+		];
+
+		let r = -1;
+		colors.forEach((color, i) => {
+			r += i % 3 == 0 ? 1 : 0;
+			r = r == 3 ? 0 : r;
+			const side = sides[Math.floor(i / 9)];
+			side[r][i % 3].setColor(color);
+		});
+	}
+	remove() {
+		if (this.withElm) {
+			[
+				this.top,
+				this.bottom,
+				this.front,
+				this.back,
+				this.left,
+				this.right,
+			]
+				.flat()
+				.flat()
+				.flat()
+				.forEach((square) => square.elm.remove());
+		}
 	}
 }

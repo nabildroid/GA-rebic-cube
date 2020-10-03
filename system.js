@@ -589,7 +589,7 @@ function Line(spot1,spot2,size=0,color='#000'){
   	}
   }
 }
-function Object(lines){
+function Object1(lines){
   this.lines=lines||new Array();
   this.get_center=function(){
   	if(!this.lines.length){return true;}

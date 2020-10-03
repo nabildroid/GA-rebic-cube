@@ -1,4 +1,10 @@
-function createGroup(startX, startY, groupSize, defaultColor = null) {
+function createGroup(
+	startX,
+	startY,
+	groupSize,
+	defaultColor = null,
+	withElm = true
+) {
 	const squareSize = groupSize / 3;
 	let elms = Array(3).fill();
 
@@ -6,7 +12,7 @@ function createGroup(startX, startY, groupSize, defaultColor = null) {
 		const y = startY + i * squareSize;
 		return new Array(3).fill().map((_, j) => {
 			const x = startX + j * squareSize;
-			const elm = new Square(x, y, squareSize);
+			const elm = new Square(x, y, squareSize, withElm);
 			if (defaultColor) elm.setColor(defaultColor);
 
 			return elm;
@@ -25,12 +31,34 @@ function rotateArray(arr) {
 	return arr;
 }
 
-
-function sliceVertical(arr,index){
+function sliceVertical(arr, index) {
 	const a = [];
 
-	arr.forEach(inner=>{
-		a.push(inner[index])
+	arr.forEach((inner) => {
+		a.push(inner[index]);
 	});
 	return a;
+}
+
+function pick(populations) {
+	var sum = 0;
+	populations.forEach((dna) => (sum += dna.fitness));
+	var index = 0;
+	var r = Math.random();
+	while (r > 0) {
+		r = r - populations[index].fitness / sum;
+		index++;
+	}
+	index--;
+	return populations[index];
+}
+
+function arrayElementsEqualeTo(arr, target) {
+	let correct = true;
+	let i = 0;
+	do {
+		correct = arr[i] == target;
+	} while (++i < arr.length && correct);
+
+	return correct;
 }
